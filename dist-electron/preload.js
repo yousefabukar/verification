@@ -1,0 +1,1 @@
+"use strict";const e=require("electron");e.contextBridge.exposeInMainWorld("electronAPI",{readCertDirectory:()=>e.ipcRenderer.invoke("read-cert-directory"),readKey:r=>e.ipcRenderer.invoke("read-key",r)});

@@ -1,0 +1,8 @@
+{
+  "uid": "a7iv-ghi789",
+  "authority": "Sony",
+  "deviceModel": "A7 IV",
+  "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----",
+  "issuedAt": "2025-12-05",
+  "expiresAt": "2026-12-05"
+}
