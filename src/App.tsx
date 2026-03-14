@@ -83,6 +83,10 @@ function App() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
           >
+            <div className="corner-tl"></div>
+            <div className="corner-tr"></div>
+            <div className="corner-bl"></div>
+            <div className="corner-br"></div>
             {!previewUrl ? (
               <>
                 <p>Drop image or click to select</p>
