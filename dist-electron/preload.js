@@ -1,6 +1,1 @@
-"use strict";
-const electron = require("electron");
-electron.contextBridge.exposeInMainWorld("electronAPI", {
-  readCertDirectory: () => electron.ipcRenderer.invoke("read-cert-directory"),
-  readKey: (keyPath) => electron.ipcRenderer.invoke("read-key", keyPath)
-});
+"use strict";const e=require("electron");e.contextBridge.exposeInMainWorld("electronAPI",{readCertDirectory:()=>e.ipcRenderer.invoke("read-cert-directory"),readKey:r=>e.ipcRenderer.invoke("read-key",r)});
