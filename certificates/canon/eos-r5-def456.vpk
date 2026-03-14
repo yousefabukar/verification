@@ -1,0 +1,8 @@
+{
+  "uid": "eos-r5-def456",
+  "authority": "Canon",
+  "deviceModel": "EOS R5",
+  "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----",
+  "issuedAt": "2025-09-10",
+  "expiresAt": "2026-09-10"
+}

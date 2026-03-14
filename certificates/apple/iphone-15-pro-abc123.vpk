@@ -1,0 +1,8 @@
+{
+  "uid": "iphone-15-pro-abc123",
+  "authority": "Apple",
+  "deviceModel": "iPhone 15 Pro",
+  "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----",
+  "issuedAt": "2026-01-15",
+  "expiresAt": "2027-01-15"
+}
