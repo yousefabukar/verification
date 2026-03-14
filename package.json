@@ -38,23 +38,28 @@
     "appId": "com.veritas.verification",
     "productName": "VeritasVerifier",
     "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "icon": "build/icon.png",
     "directories": {
       "output": "release"
     },
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "certificates/**/*"
+      "certificates/**/*",
+      "build/icon.png"
     ],
     "mac": {
       "target": ["dmg"],
+      "icon": "build/icon.png",
       "category": "public.app-category.utilities"
     },
     "win": {
-      "target": ["nsis"]
+      "target": ["nsis"],
+      "icon": "build/icon.png"
     },
     "linux": {
       "target": ["AppImage"],
+      "icon": "build/icon.png",
       "category": "Utility"
     }
   }

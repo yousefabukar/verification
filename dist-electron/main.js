@@ -3,9 +3,11 @@ const electron = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
 function createWindow() {
+  const iconPath = electron.app.isPackaged ? path.join(process.resourcesPath, "build", "icon.png") : path.join(__dirname, "../build/icon.png");
   const mainWindow = new electron.BrowserWindow({
     width: 1200,
     height: 800,
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,

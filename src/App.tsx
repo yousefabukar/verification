@@ -144,7 +144,7 @@ function App() {
                   className="folder-header"
                   onClick={() => toggleFolder(folder.name)}
                 >
-                  <span className="icon">{expandedFolders.has(folder.name) ? '▼' : '▶'}</span>
+                  <span className="icon">{expandedFolders.has(folder.name) ? '▾' : '▸'}</span>
                   <span className="folder-name">{folder.name}</span>
                   <span className="count">{folder.files.length}</span>
                 </button>
@@ -156,7 +156,7 @@ function App() {
                         className="file"
                         onClick={() => handleKeyClick(file.path)}
                       >
-                        <span className="icon">🔑</span>
+                        <span className="icon">📄</span>
                         <span className="file-name">{file.name}</span>
                       </button>
                     ))}
