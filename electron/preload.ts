@@ -5,4 +5,5 @@ import { contextBridge, ipcRenderer } from 'electron'
 contextBridge.exposeInMainWorld('electronAPI', {
   readCertDirectory: () => ipcRenderer.invoke('read-cert-directory'),
   readKey: (keyPath: string) => ipcRenderer.invoke('read-key', keyPath),
+  verifyImage: (imgPath: string) => ipcRenderer.invoke('verify-image', imgPath),
 })

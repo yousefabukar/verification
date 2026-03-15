@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { CertFolder, KeyInfo } from './electron'
+import { CertFolder, KeyInfo, VerifyResult } from './electron'
 
-type VerificationResult = {
-  valid: boolean
-  device?: string
-  authority?: string
-  error?: string
-}
+type VerificationResult = VerifyResult
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -43,14 +38,11 @@ function App() {
     }
   }
 
-  const handleVerify = () => {
-    // TODO: Call Rust backend via bindings
-    // Mock verification for now
-    setVerificationResult({
-      valid: true,
-      device: 'iPhone 15 Pro',
-      authority: 'Apple',
-    })
+  const handleVerify = async () => {
+    if (!selectedFile || !window.electronAPI) return
+    const imgPath = (selectedFile as any).path as string
+    const result = await window.electronAPI.verifyImage(imgPath)
+    setVerificationResult(result)
   }
 
   const toggleFolder = (name: string) => {
@@ -121,14 +113,15 @@ function App() {
             <div className={`result ${verificationResult.valid ? 'valid' : 'invalid'}`}>
               {verificationResult.valid ? (
                 <>
-                  <p className="status">✓ Verified</p>
-                  <p>Device: {verificationResult.device}</p>
-                  <p>Authority: {verificationResult.authority}</p>
+                  <p className="status">✓ Authentic</p>
+                  {verificationResult.device && <p>Device: {verificationResult.device}</p>}
+                  {verificationResult.authority && <p>Authority: {verificationResult.authority}</p>}
+                  {verificationResult.certId && <p>Certificate: {verificationResult.certId}</p>}
                 </>
               ) : (
                 <>
-                  <p className="status">✗ Unverified</p>
-                  <p>{verificationResult.error || 'Image could not be verified'}</p>
+                  <p className="status">✗ Not Authentic</p>
+                  <p>{verificationResult.error || 'Image could not be verified as authentic'}</p>
                 </>
               )}
             </div>

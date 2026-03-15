@@ -1,6 +1,15 @@
+export interface VerifyResult {
+  valid: boolean
+  certId?: string
+  device?: string
+  authority?: string
+  error?: string
+}
+
 export interface ElectronAPI {
   readCertDirectory: () => Promise<CertFolder[]>
   readKey: (keyPath: string) => Promise<KeyInfo>
+  verifyImage: (imgPath: string) => Promise<VerifyResult>
 }
 
 export interface CertFolder {

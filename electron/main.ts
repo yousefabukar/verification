@@ -2,6 +2,10 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import fs from 'fs/promises'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const veritas = require('../../veritas-core/bindings/core')
+const DUMMY_KEY_PATH = '/tmp/dummy.key'
+
 // Electron main process entry point
 function createWindow() {
   const iconPath = app.isPackaged
@@ -82,6 +86,25 @@ ipcMain.handle('read-cert-directory', async () => {
   } catch (error) {
     console.error('Error reading certificates:', error)
     return []
+  }
+})
+
+ipcMain.handle('verify-image', async (_, imgPath: string) => {
+  try {
+    const sigInfo = veritas.siginfo(imgPath)
+    const pkInfo = veritas.keyread(DUMMY_KEY_PATH)
+    const valid = veritas.verify(imgPath, DUMMY_KEY_PATH)
+    return {
+      valid,
+      certId: sigInfo.cert_id,
+      device: pkInfo.device_model,
+      authority: pkInfo.authority,
+    }
+  } catch (error: any) {
+    return {
+      valid: false,
+      error: error?.message ?? 'Image could not be verified as authentic',
+    }
   }
 })
 
