@@ -170,8 +170,8 @@ function App() {
             </div>
             <div className="modal-body">
               <div className="key-field">
-                <label>UID</label>
-                <div className="value mono">{selectedKey.uid}</div>
+                <label>Key ID</label>
+                <div className="value mono">{selectedKey.keyId}</div>
               </div>
               <div className="key-field">
                 <label>Authority</label>
@@ -183,15 +183,7 @@ function App() {
               </div>
               <div className="key-field">
                 <label>Issued</label>
-                <div className="value">{selectedKey.issuedAt}</div>
-              </div>
-              <div className="key-field">
-                <label>Expires</label>
-                <div className="value">{selectedKey.expiresAt}</div>
-              </div>
-              <div className="key-field">
-                <label>Public Key</label>
-                <div className="value mono key-preview">{selectedKey.publicKey}</div>
+                <div className="value">{new Date(selectedKey.issued * 1000).toLocaleString()}</div>
               </div>
             </div>
           </div>

@@ -140,22 +140,11 @@ ipcMain.handle('verify-image', async (_, imgPath: string) => {
 })
 
 ipcMain.handle('read-key', async (_, keyPath: string) => {
-  try {
-    // TODO: Call Rust backend - for now return mock data
-    const content = await fs.readFile(keyPath, 'utf-8')
-    const data = JSON.parse(content)
-
-    // Mock data structure - replace with actual Rust call
-    return {
-      uid: data.uid,
-      authority: data.authority,
-      deviceModel: data.deviceModel,
-      publicKey: data.publicKey,
-      issuedAt: data.issuedAt,
-      expiresAt: data.expiresAt,
-    }
-  } catch (error) {
-    console.error('Error reading key:', error)
-    throw error
+  const pkInfo = veritas.keyread(keyPath)
+  return {
+    keyId: pkInfo.key_id,
+    authority: pkInfo.authority,
+    deviceModel: pkInfo.device_model,
+    issued: pkInfo.issued,
   }
 })

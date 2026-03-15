@@ -24,12 +24,10 @@ export interface CertFile {
 }
 
 export interface KeyInfo {
-  uid: string
+  keyId: string
   authority: string
   deviceModel: string
-  publicKey: string
-  issuedAt: string
-  expiresAt: string
+  issued: number
 }
 
 declare global {
