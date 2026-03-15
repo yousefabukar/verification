@@ -4,7 +4,6 @@ import fs from 'fs/promises'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const veritas = require('../../veritas-core/bindings/core')
-const DUMMY_KEY_PATH = '/tmp/dummy.key'
 
 // Electron main process entry point
 function createWindow() {
@@ -92,13 +91,45 @@ ipcMain.handle('read-cert-directory', async () => {
 ipcMain.handle('verify-image', async (_, imgPath: string) => {
   try {
     const sigInfo = veritas.siginfo(imgPath)
-    const pkInfo = veritas.keyread(DUMMY_KEY_PATH)
-    const valid = veritas.verify(imgPath, DUMMY_KEY_PATH)
+    const certId: string = sigInfo.cert_id
+
+    // Find the key whose key_id matches the cert_id embedded in the image
+    const certsPath = app.isPackaged
+      ? path.join(process.resourcesPath, 'certificates')
+      : path.join(process.cwd(), 'certificates')
+
+    const authorities = await fs.readdir(certsPath)
+    let matchedKeyPath: string | null = null
+    let matchedPkInfo: any = null
+
+    for (const authority of authorities) {
+      const authorityPath = path.join(certsPath, authority)
+      const stat = await fs.stat(authorityPath)
+      if (!stat.isDirectory()) continue
+
+      const files = await fs.readdir(authorityPath)
+      for (const file of files.filter((f) => f.endsWith('.vpk'))) {
+        const filePath = path.join(authorityPath, file)
+        const pkInfo = veritas.keyread(filePath)
+        if (pkInfo.key_id === certId) {
+          matchedKeyPath = filePath
+          matchedPkInfo = pkInfo
+          break
+        }
+      }
+      if (matchedKeyPath) break
+    }
+
+    if (!matchedKeyPath) {
+      return { valid: false, error: `No trusted key found for certificate ID: ${certId}` }
+    }
+
+    const valid = veritas.verify(imgPath, matchedKeyPath)
     return {
       valid,
-      certId: sigInfo.cert_id,
-      device: pkInfo.device_model,
-      authority: pkInfo.authority,
+      certId,
+      device: matchedPkInfo.device_model,
+      authority: matchedPkInfo.authority,
     }
   } catch (error: any) {
     return {
